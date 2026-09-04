@@ -3,46 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Money Tracker — รายรับรายจ่าย</title>
+<title>Money Tracker — รายรับ รายจ่าย ออม ลงทุน</title>
 <style>
 :root{
   --bg:#0f1521; --card:#182131; --line:#26324a; --txt:#e8eef7; --sub:#93a3bb;
-  --in:#22c55e; --ex:#f43f5e; --acc:#3b82f6; --warn:#f59e0b;
+  --in:#22c55e; --ex:#f43f5e; --sv:#f59e0b; --iv:#a855f7; --acc:#3b82f6;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Sarabun',system-ui,-apple-system,sans-serif}
 body{background:var(--bg);color:var(--txt);padding-bottom:60px}
 
 header{background:var(--card);border-bottom:1px solid var(--line);padding:16px 24px;
-  display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:50}
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:50}
 header h1{font-size:19px;flex:1;white-space:nowrap}
 header h1 small{color:var(--sub);font-size:12px;font-weight:400;display:block}
-select,input,button,textarea{font-size:14px;border-radius:9px;border:1px solid var(--line);
+select,input,button{font-size:14px;border-radius:9px;border:1px solid var(--line);
   background:#0f1521;color:var(--txt);padding:9px 11px;outline:none}
 select:focus,input:focus{border-color:var(--acc)}
 button{cursor:pointer;border:0;font-weight:700;transition:.15s}
 button:hover{filter:brightness(1.15)}
 .btn{background:var(--acc);color:#fff;padding:9px 16px}
 .btn-ghost{background:#26324a;color:var(--txt);padding:9px 14px}
-.wrap{max-width:1200px;margin:0 auto;padding:22px 24px}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 24px}
 
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:13px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px;
   border-left:4px solid var(--acc)}
 .kpi.in{border-left-color:var(--in)} .kpi.ex{border-left-color:var(--ex)}
-.kpi.bal{border-left-color:var(--acc)} .kpi.save{border-left-color:var(--warn)}
+.kpi.sv{border-left-color:var(--sv)} .kpi.iv{border-left-color:var(--iv)}
 .kpi span{font-size:12px;color:var(--sub);display:block}
-.kpi b{font-size:25px;display:block;margin-top:5px;letter-spacing:-.5px}
-.kpi em{font-size:11px;color:var(--sub);font-style:normal}
+.kpi b{font-size:23px;display:block;margin-top:4px;letter-spacing:-.5px}
+.kpi em{font-size:11px;color:var(--sub);font-style:normal;display:block;margin-top:3px}
 
 h2{font-size:15px;margin:26px 0 12px;color:var(--sub);text-transform:uppercase;letter-spacing:.6px;
-   display:flex;align-items:center;gap:10px}
+   display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 h2 button{font-size:11px;padding:5px 11px;background:#26324a;color:var(--acc);border-radius:99px}
-.panels{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
-@media(max-width:900px){.panels{grid-template-columns:1fr}}
+.panels{display:grid;grid-template-columns:1.55fr 1fr;gap:16px}
+.panels2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:900px){.panels,.panels2{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
-.card h3{font-size:14px;margin-bottom:14px;color:var(--sub)}
+.card h3{font-size:14px;margin-bottom:6px;color:var(--txt)}
+.card h3 small{color:var(--sub);font-weight:400;font-size:12px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--sub);margin-bottom:12px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:4px}
 
-/* ---- ชิปรายการด่วน ---- */
+/* ---------- ชิปรายการด่วน ---------- */
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .chip{display:flex;align-items:center;gap:7px;background:#0f1521;border:1px solid var(--line);
   border-radius:99px;padding:7px 8px 7px 13px;font-size:13px;cursor:pointer;transition:.15s}
@@ -52,66 +57,79 @@ h2 button{font-size:11px;padding:5px 11px;background:#26324a;color:var(--acc);bo
 .chip .rm:hover{color:var(--ex)}
 .chip.add{border-style:dashed;color:var(--acc);padding:7px 14px}
 
+/* ---------- แถบสัดส่วน ---------- */
 .catrow{margin-bottom:11px}
-.catrow .t{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
-.catrow .t b{font-variant-numeric:tabular-nums}
+.catrow .t{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;gap:8px}
+.catrow .t b{font-variant-numeric:tabular-nums;white-space:nowrap}
 .track{height:7px;background:#0f1521;border-radius:99px;overflow:hidden}
 .fill{height:100%;border-radius:99px;transition:.4s}
+.total{display:flex;justify-content:space-between;align-items:baseline;
+  border-top:1px dashed var(--line);margin-top:12px;padding-top:11px;font-size:13px}
+.total b{font-size:19px;font-variant-numeric:tabular-nums}
 
-.bars{display:flex;align-items:flex-end;gap:10px;height:190px;padding-top:8px}
+/* ---------- กราฟแท่ง ---------- */
+.bars{display:flex;align-items:flex-end;gap:8px;height:195px}
 .barcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;
   justify-content:flex-end;cursor:pointer}
 .barpair{display:flex;gap:2px;align-items:flex-end;width:100%;height:100%;justify-content:center}
-.bar{width:42%;border-radius:4px 4px 0 0;min-height:2px;transition:.3s}
+.bar{width:21%;border-radius:3px 3px 0 0;min-height:2px;transition:.3s}
 .bar.i{background:linear-gradient(180deg,#4ade80,#16a34a)}
 .bar.e{background:linear-gradient(180deg,#fb7185,#e11d48)}
+.bar.s{background:linear-gradient(180deg,#fbbf24,#d97706)}
+.bar.v{background:linear-gradient(180deg,#c084fc,#7e22ce)}
 .barcol small{font-size:10px;color:var(--sub)}
 .barcol.on small{color:var(--acc);font-weight:700}
 
+/* ---------- ตาราง ---------- */
 table{width:100%;border-collapse:collapse;font-size:14px}
 th{text-align:left;color:var(--sub);font-size:11px;text-transform:uppercase;
   padding:9px 10px;border-bottom:1px solid var(--line)}
 td{padding:11px 10px;border-bottom:1px solid #1e2739}
 tbody tr:hover{background:#1e2739}
 .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 11px;
-  border-radius:99px;background:#26324a}
+  border-radius:99px;background:#26324a;white-space:nowrap}
 .tag i{width:7px;height:7px;border-radius:50%;display:inline-block;font-style:normal}
 .amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-.amt.i{color:var(--in)} .amt.e{color:var(--ex)}
 .x{background:#3a1420;color:var(--ex);padding:4px 9px;border-radius:6px;font-size:12px}
-.empty{text-align:center;color:var(--sub);padding:40px;font-size:14px}
+.empty{text-align:center;color:var(--sub);padding:36px;font-size:14px}
 
-.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;align-items:end}
+/* ---------- ฟอร์ม ---------- */
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:10px;align-items:end}
 .form label{font-size:11px;color:var(--sub);display:block;margin-bottom:5px}
 .form input,.form select{width:100%}
-.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
-.seg button{flex:1;background:#0f1521;color:var(--sub);padding:9px;font-size:13px}
-.seg button.on-i{background:var(--in);color:#03210f}
-.seg button.on-e{background:var(--ex);color:#fff}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);
+  border-radius:9px;overflow:hidden}
+.seg button{background:#0f1521;color:var(--sub);padding:9px 4px;font-size:12.5px}
+.seg button.on-income {background:var(--in);color:#03210f}
+.seg button.on-expense{background:var(--ex);color:#fff}
+.seg button.on-saving {background:var(--sv);color:#2a1a00}
+.seg button.on-invest {background:var(--iv);color:#fff}
+.chk{display:none;align-items:center;gap:7px;font-size:12px;color:var(--sub);
+  background:#0f1521;border:1px solid var(--line);border-radius:9px;padding:10px 12px;cursor:pointer}
+.chk.show{display:flex}
+.chk input{width:15px;height:15px;accent-color:var(--sv);padding:0}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 
-/* ---- Modal จัดการหมวดหมู่ ---- */
+/* ---------- Modal ---------- */
 .mask{position:fixed;inset:0;background:#000a;backdrop-filter:blur(3px);
   display:none;place-items:center;z-index:99;padding:20px}
 .mask.show{display:grid}
 .modal{background:var(--card);border:1px solid var(--line);border-radius:16px;
-  width:100%;max-width:540px;max-height:88vh;overflow:auto;padding:22px}
+  width:100%;max-width:560px;max-height:88vh;overflow:auto;padding:22px}
 .modal h3{font-size:17px;margin-bottom:4px}
 .modal p.sub{color:var(--sub);font-size:12px;margin-bottom:16px}
-.tabs{display:flex;gap:8px;margin-bottom:14px}
-.tabs button{flex:1;background:#0f1521;color:var(--sub);padding:9px;border:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px}
+.tabs button{background:#0f1521;color:var(--sub);padding:9px 4px;border:1px solid var(--line);font-size:12.5px}
 .tabs button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-.clist{display:flex;flex-direction:column;gap:7px;margin-bottom:18px;max-height:230px;overflow:auto}
+.clist{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;max-height:225px;overflow:auto}
 .citem{display:flex;align-items:center;gap:10px;background:#0f1521;border:1px solid var(--line);
   border-radius:10px;padding:9px 12px}
-.citem .ic{font-size:17px}
-.citem .nm{flex:1;font-size:14px}
+.citem .ic{font-size:17px} .citem .nm{flex:1;font-size:14px}
 .citem .used{font-size:11px;color:var(--sub)}
 .citem button{padding:4px 9px;font-size:12px;border-radius:6px;background:#26324a;color:var(--sub)}
 .citem button.d{background:#3a1420;color:var(--ex)}
 .picker{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
-.picker button{background:#0f1521;border:1px solid var(--line);border-radius:8px;
-  padding:6px 9px;font-size:16px}
+.picker button{background:#0f1521;border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:16px}
 .picker button.on{border-color:var(--acc);background:#1e2739}
 .swatch{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer}
 .swatch.on{border-color:#fff}
@@ -123,7 +141,7 @@ tbody tr:hover{background:#1e2739}
 <body>
 
 <header>
-  <h1>💰 Money Tracker<small>บันทึกรายรับ-รายจ่าย แยกตามเดือน</small></h1>
+  <h1>💰 Money Tracker<small>รายรับ · รายจ่าย · เงินออม · ลงทุน — แยกตามเดือน</small></h1>
   <select id="mSel" onchange="render()"></select>
   <button class="btn-ghost" onclick="openCat()">⚙ หมวดหมู่</button>
   <button class="btn-ghost" onclick="expCSV()">⬇ CSV</button>
@@ -135,26 +153,31 @@ tbody tr:hover{background:#1e2739}
 <div class="wrap">
 
   <div class="kpis">
-    <div class="kpi in"><span>รายรับเดือนนี้</span><b id="kIn">฿0</b><em id="kInN">0 รายการ</em></div>
-    <div class="kpi ex"><span>รายจ่ายเดือนนี้</span><b id="kEx">฿0</b><em id="kExN">0 รายการ</em></div>
-    <div class="kpi bal"><span>คงเหลือ</span><b id="kBal">฿0</b><em id="kCmp">—</em></div>
-    <div class="kpi save"><span>อัตราการออม</span><b id="kSave">0%</b><em id="kAvg">เฉลี่ย/วัน ฿0</em></div>
+    <div class="kpi in"><span>📥 รายรับเดือนนี้</span><b id="kIn">฿0</b><em id="kInN">0 รายการ</em></div>
+    <div class="kpi ex"><span>📤 รายจ่ายเดือนนี้</span><b id="kEx">฿0</b><em id="kExN">0 รายการ</em></div>
+    <div class="kpi sv"><span>🐷 เงินออมเดือนนี้</span><b id="kSv">฿0</b><em id="kSvT">สะสม ฿0</em></div>
+    <div class="kpi iv"><span>📈 ลงทุนเดือนนี้</span><b id="kIv">฿0</b><em id="kIvT">พอร์ตสะสม ฿0</em></div>
+    <div class="kpi"><span>💵 เงินสดคงเหลือ</span><b id="kBal">฿0</b><em id="kCmp">—</em></div>
+    <div class="kpi sv"><span>🎯 อัตราการออม+ลงทุน</span><b id="kRate">0%</b><em id="kHealth">—</em></div>
   </div>
 
   <h2>เพิ่มรายการใหม่ <button onclick="openCat()">⚙ จัดการหมวดหมู่</button></h2>
   <div class="card">
     <div class="chips" id="chips"></div>
     <div class="form">
-      <div><label>ประเภท</label>
-        <div class="seg">
-          <button id="bI" class="on-i" onclick="setType('income')">รายรับ</button>
-          <button id="bE" onclick="setType('expense')">รายจ่าย</button>
+      <div style="grid-column:span 2"><label>ประเภทรายการ</label>
+        <div class="seg" id="seg">
+          <button data-t="income"  onclick="setType('income')">📥 รายรับ</button>
+          <button data-t="expense" onclick="setType('expense')">📤 รายจ่าย</button>
+          <button data-t="saving"  onclick="setType('saving')">🐷 ออม</button>
+          <button data-t="invest"  onclick="setType('invest')">📈 ลงทุน</button>
         </div>
       </div>
       <div><label>วันที่</label><input type="date" id="fDate"></div>
       <div><label>หมวดหมู่</label><select id="fCat" onchange="catChanged()"></select></div>
       <div><label>จำนวนเงิน (บาท)</label><input type="number" id="fAmt" placeholder="0.00" step="0.01" min="0"></div>
-      <div style="grid-column:span 2"><label>รายละเอียด</label><input id="fNote" placeholder="เช่น ค่าอาหารกลางวัน"></div>
+      <div style="grid-column:span 2"><label>รายละเอียด</label><input id="fNote" placeholder="เช่น ฝากเข้าบัญชีออมทรัพย์"></div>
+      <label class="chk" id="chkWrap"><input type="checkbox" id="fOut"><span id="chkTxt">ถอนออก</span></label>
       <div><button class="btn" style="width:100%" onclick="addItem()">+ บันทึก</button></div>
     </div>
   </div>
@@ -162,30 +185,48 @@ tbody tr:hover{background:#1e2739}
   <h2>Dashboard</h2>
   <div class="panels">
     <div class="card">
-      <h3>ภาพรวม 12 เดือนย้อนหลัง <span style="color:var(--in)">■</span> รายรับ
-                                  <span style="color:var(--ex)">■</span> รายจ่าย</h3>
+      <h3>ภาพรวม 12 เดือนย้อนหลัง <small>คลิกที่แท่งเพื่อดูเดือนนั้น</small></h3>
+      <div class="legend">
+        <span><i style="background:#22c55e"></i>รายรับ</span>
+        <span><i style="background:#f43f5e"></i>รายจ่าย</span>
+        <span><i style="background:#f59e0b"></i>เงินออม</span>
+        <span><i style="background:#a855f7"></i>ลงทุน</span>
+      </div>
       <div class="bars" id="bars"></div>
     </div>
     <div class="card">
-      <h3>สัดส่วนรายจ่ายตามหมวดหมู่</h3>
+      <h3>📤 สัดส่วนรายจ่ายเดือนนี้</h3>
       <div id="cats"></div>
+    </div>
+  </div>
+
+  <div class="panels2">
+    <div class="card">
+      <h3>🐷 พอร์ตเงินออมสะสม <small id="svUpto"></small></h3>
+      <div id="svBox"></div>
+    </div>
+    <div class="card">
+      <h3>📈 พอร์ตการลงทุนสะสม <small id="ivUpto"></small></h3>
+      <div id="ivBox"></div>
     </div>
   </div>
 
   <h2>รายการทั้งหมดในเดือนนี้</h2>
   <div class="card">
     <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-      <input id="q" placeholder="🔍 ค้นหารายละเอียด/หมวดหมู่..." oninput="render()" style="flex:1;min-width:180px">
-      <select id="fType" onchange="render()">
+      <input id="q" placeholder="🔍 ค้นหารายละเอียด/หมวดหมู่..." oninput="render()" style="flex:1;min-width:170px">
+      <select id="fType" onchange="fillFilterSelect();render()">
         <option value="all">ทุกประเภท</option>
-        <option value="income">รายรับ</option>
-        <option value="expense">รายจ่าย</option>
+        <option value="income">📥 รายรับ</option>
+        <option value="expense">📤 รายจ่าย</option>
+        <option value="saving">🐷 เงินออม</option>
+        <option value="invest">📈 ลงทุน</option>
       </select>
       <select id="fCatF" onchange="render()"></select>
     </div>
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>วันที่</th><th>หมวดหมู่</th><th>รายละเอียด</th>
+        <thead><tr><th>วันที่</th><th>ประเภท</th><th>หมวดหมู่</th><th>รายละเอียด</th>
                    <th style="text-align:right">จำนวนเงิน</th><th></th></tr></thead>
         <tbody id="tb"></tbody>
       </table>
@@ -201,15 +242,14 @@ tbody tr:hover{background:#1e2739}
 <div class="mask" id="mask" onclick="if(event.target===this)closeCat()">
   <div class="modal">
     <h3>⚙ จัดการหมวดหมู่</h3>
-    <p class="sub">สร้างรายการของคุณเอง เลือกไอคอนและสีได้ — หมวดที่สร้างจะขึ้นใน dropdown ทันที</p>
-
+    <p class="sub">แต่ละประเภทมีชุดหมวดหมู่ของตัวเอง — เพิ่ม แก้ไข ลบ เลือกไอคอนและสีได้อิสระ</p>
     <div class="tabs">
-      <button id="tI" class="on" onclick="setTab('income')">📥 หมวดรายรับ</button>
-      <button id="tE" onclick="setTab('expense')">📤 หมวดรายจ่าย</button>
+      <button data-t="income"  onclick="setTab('income')">📥 รายรับ</button>
+      <button data-t="expense" onclick="setTab('expense')">📤 รายจ่าย</button>
+      <button data-t="saving"  onclick="setTab('saving')">🐷 ออม</button>
+      <button data-t="invest"  onclick="setTab('invest')">📈 ลงทุน</button>
     </div>
-
     <div class="clist" id="clist"></div>
-
     <div style="border-top:1px solid var(--line);padding-top:14px">
       <label style="font-size:11px;color:var(--sub)">เลือกไอคอน</label>
       <div class="picker" id="icons"></div>
@@ -217,11 +257,10 @@ tbody tr:hover{background:#1e2739}
       <div class="picker" id="colors"></div>
       <div class="mrow">
         <div><label style="font-size:11px;color:var(--sub)">ชื่อหมวดหมู่</label>
-          <input id="cName" placeholder="เช่น ค่ากาแฟ, รายได้เสริม" style="width:100%"></div>
+          <input id="cName" placeholder="เช่น ออมทอง, กองทุน SSF" style="width:100%"></div>
         <button class="btn" id="cSave" onclick="saveCat()">+ เพิ่ม</button>
       </div>
     </div>
-
     <div class="mfoot">
       <button class="btn-ghost" onclick="resetCats()">↺ คืนค่าเริ่มต้น</button>
       <button class="btn" onclick="closeCat()">เสร็จสิ้น</button>
@@ -230,38 +269,70 @@ tbody tr:hover{background:#1e2739}
 </div>
 
 <script>
-/* ═══════════ Storage ═══════════ */
-const K_TX='mt_tx_v2', K_CAT='mt_cat_v2', K_PS='mt_preset_v2';
+/* ═══════════ ค่าคงที่ ═══════════ */
+const K_TX='mt_tx_v3', K_CAT='mt_cat_v3', K_PS='mt_preset_v3';
+
+const TYPES = {
+  income :{label:'รายรับ' ,icon:'📥',color:'#22c55e',cls:'i'},
+  expense:{label:'รายจ่าย',icon:'📤',color:'#f43f5e',cls:'e'},
+  saving :{label:'เงินออม',icon:'🐷',color:'#f59e0b',cls:'s'},
+  invest :{label:'ลงทุน'  ,icon:'📈',color:'#a855f7',cls:'v'}
+};
 
 const DEFAULT_CATS = [
-  {id:1 ,type:'income' ,name:'เงินเดือน'        ,icon:'💼',color:'#22c55e'},
-  {id:2 ,type:'income' ,name:'โบนัส'            ,icon:'🎁',color:'#84cc16'},
-  {id:3 ,type:'income' ,name:'ขายของ'           ,icon:'🛒',color:'#06b6d4'},
-  {id:4 ,type:'income' ,name:'ลงทุน/ปันผล'      ,icon:'📈',color:'#3b82f6'},
-  {id:5 ,type:'income' ,name:'ฟรีแลนซ์'         ,icon:'💻',color:'#a855f7'},
-  {id:6 ,type:'income' ,name:'รายรับอื่นๆ'      ,icon:'✨',color:'#64748b'},
-  {id:11,type:'expense',name:'อาหาร'            ,icon:'🍜',color:'#f43f5e'},
-  {id:12,type:'expense',name:'เดินทาง'          ,icon:'🚗',color:'#f97316'},
-  {id:13,type:'expense',name:'ที่พัก/ค่าเช่า'   ,icon:'🏠',color:'#f59e0b'},
-  {id:14,type:'expense',name:'บิล/สาธารณูปโภค'  ,icon:'💡',color:'#eab308'},
-  {id:15,type:'expense',name:'ช้อปปิ้ง'         ,icon:'🛍️',color:'#ec4899'},
-  {id:16,type:'expense',name:'สุขภาพ'           ,icon:'🏥',color:'#06b6d4'},
-  {id:17,type:'expense',name:'บันเทิง'          ,icon:'🎬',color:'#a855f7'},
-  {id:18,type:'expense',name:'การศึกษา'         ,icon:'📚',color:'#3b82f6'},
-  {id:19,type:'expense',name:'ผ่อน/หนี้สิน'     ,icon:'🏦',color:'#ef4444'},
-  {id:20,type:'expense',name:'รายจ่ายอื่นๆ'     ,icon:'📦',color:'#64748b'}
+  /* รายรับ */
+  {id:1 ,type:'income' ,name:'เงินเดือน'          ,icon:'💼',color:'#22c55e'},
+  {id:2 ,type:'income' ,name:'โบนัส'              ,icon:'🎁',color:'#84cc16'},
+  {id:3 ,type:'income' ,name:'ฟรีแลนซ์'           ,icon:'💻',color:'#14b8a6'},
+  {id:4 ,type:'income' ,name:'ขายของ'             ,icon:'🛒',color:'#06b6d4'},
+  {id:5 ,type:'income' ,name:'ดอกเบี้ย/ปันผล'     ,icon:'🪙',color:'#3b82f6'},
+  {id:6 ,type:'income' ,name:'รายรับอื่นๆ'        ,icon:'✨',color:'#64748b'},
+  /* รายจ่าย */
+  {id:11,type:'expense',name:'อาหาร'              ,icon:'🍜',color:'#f43f5e'},
+  {id:12,type:'expense',name:'เดินทาง'            ,icon:'🚗',color:'#f97316'},
+  {id:13,type:'expense',name:'ที่พัก/ค่าเช่า'     ,icon:'🏠',color:'#f59e0b'},
+  {id:14,type:'expense',name:'บิล/สาธารณูปโภค'    ,icon:'💡',color:'#eab308'},
+  {id:15,type:'expense',name:'ช้อปปิ้ง'           ,icon:'🛍️',color:'#ec4899'},
+  {id:16,type:'expense',name:'สุขภาพ'             ,icon:'🏥',color:'#06b6d4'},
+  {id:17,type:'expense',name:'บันเทิง'            ,icon:'🎬',color:'#a855f7'},
+  {id:18,type:'expense',name:'การศึกษา'           ,icon:'📚',color:'#3b82f6'},
+  {id:19,type:'expense',name:'ผ่อน/หนี้สิน'       ,icon:'🏦',color:'#ef4444'},
+  {id:20,type:'expense',name:'รายจ่ายอื่นๆ'       ,icon:'📦',color:'#64748b'},
+  /* เงินออม */
+  {id:31,type:'saving' ,name:'บัญชีออมทรัพย์'     ,icon:'🏦',color:'#f59e0b'},
+  {id:32,type:'saving' ,name:'เงินฝากประจำ'       ,icon:'🔒',color:'#eab308'},
+  {id:33,type:'saving' ,name:'เงินสำรองฉุกเฉิน'   ,icon:'🚨',color:'#f97316'},
+  {id:34,type:'saving' ,name:'สลากออมทรัพย์'      ,icon:'🎫',color:'#84cc16'},
+  {id:35,type:'saving' ,name:'ประกันสะสมทรัพย์'   ,icon:'🛡️',color:'#14b8a6'},
+  {id:36,type:'saving' ,name:'ออมเป้าหมาย'        ,icon:'🎯',color:'#06b6d4'},
+  {id:37,type:'saving' ,name:'ออมอื่นๆ'           ,icon:'🐷',color:'#64748b'},
+  /* ลงทุน */
+  {id:41,type:'invest' ,name:'หุ้นไทย'            ,icon:'📊',color:'#a855f7'},
+  {id:42,type:'invest' ,name:'หุ้นต่างประเทศ'     ,icon:'🌏',color:'#8b5cf6'},
+  {id:43,type:'invest' ,name:'กองทุนรวม'          ,icon:'📈',color:'#6366f1'},
+  {id:44,type:'invest' ,name:'RMF / SSF'          ,icon:'🧾',color:'#3b82f6'},
+  {id:45,type:'invest' ,name:'ทองคำ'              ,icon:'🥇',color:'#eab308'},
+  {id:46,type:'invest' ,name:'คริปโต'             ,icon:'₿' ,color:'#f97316'},
+  {id:47,type:'invest' ,name:'พันธบัตร/ตราสารหนี้',icon:'📜',color:'#14b8a6'},
+  {id:48,type:'invest' ,name:'อสังหาริมทรัพย์'    ,icon:'🏢',color:'#ec4899'},
+  {id:49,type:'invest' ,name:'ลงทุนอื่นๆ'         ,icon:'💎',color:'#64748b'}
 ];
-const ICONS = ['💼','🎁','🛒','📈','💻','✨','🍜','☕','🚗','⛽','🏠','💡','🛍️','🏥',
-               '🎬','📚','🏦','📱','🐶','✈️','🎓','💊','🎮','👕','📦','💰'];
-const PALETTE = ['#22c55e','#84cc16','#06b6d4','#3b82f6','#a855f7','#ec4899',
-                 '#f43f5e','#f97316','#f59e0b','#eab308','#14b8a6','#64748b'];
 
+const ICONS = ['💼','🎁','💻','🛒','🪙','✨','🍜','☕','🚗','🏠','💡','🛍️','🏥','🎬','📚',
+               '🏦','🔒','🚨','🎫','🛡️','🎯','🐷','📊','🌏','📈','🧾','🥇','₿','📜','🏢','💎','📱'];
+const PALETTE = ['#22c55e','#84cc16','#14b8a6','#06b6d4','#3b82f6','#6366f1',
+                 '#a855f7','#ec4899','#f43f5e','#f97316','#f59e0b','#64748b'];
+
+/* ═══════════ ข้อมูล ═══════════ */
 let data  = JSON.parse(localStorage.getItem(K_TX)  || '[]');
 let cats  = JSON.parse(localStorage.getItem(K_CAT) || 'null') || DEFAULT_CATS.slice();
 let psets = JSON.parse(localStorage.getItem(K_PS)  || 'null') || [
-  {id:101,type:'expense',cat:'อาหาร'   ,amt:60 ,note:'ข้าวกลางวัน'},
-  {id:102,type:'expense',cat:'อาหาร'   ,amt:45 ,note:'กาแฟ'},
-  {id:103,type:'expense',cat:'เดินทาง' ,amt:30 ,note:'ค่ารถ'}
+  {id:101,type:'expense',cat:'อาหาร'          ,amt:60   ,note:'ข้าวกลางวัน'},
+  {id:102,type:'expense',cat:'เดินทาง'        ,amt:30   ,note:'ค่ารถ'},
+  {id:103,type:'saving' ,cat:'บัญชีออมทรัพย์' ,amt:5000 ,note:'ออมประจำเดือน'},
+  {id:104,type:'saving' ,cat:'เงินสำรองฉุกเฉิน',amt:2000,note:'เติมกองฉุกเฉิน'},
+  {id:105,type:'invest' ,cat:'กองทุนรวม'      ,amt:3000 ,note:'DCA รายเดือน'},
+  {id:106,type:'invest' ,cat:'หุ้นไทย'        ,amt:5000 ,note:'ซื้อหุ้น'}
 ];
 
 const saveAll = () => {
@@ -277,18 +348,23 @@ const thM  = k => { const [y,m]=k.split('-');
   return ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'][+m-1]
          +' '+(+y+543).toString().slice(2); };
 const findCat = (n,t) => cats.find(c=>c.name===n && (!t||c.type===t))
-                      || {icon:'📌',color:'#64748b',name:n};
+                      || cats.find(c=>c.name===n) || {icon:'📌',color:'#64748b',name:n};
 const esc = s => String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+const sum = a => a.reduce((s,x)=>s+x.amt,0);
 
 let type='income', tab='income', editId=null, pickIcon='💼', pickColor='#22c55e';
 
 /* ═══════════ ฟอร์มหลัก ═══════════ */
 function setType(t){
   type=t;
-  bI.className = t==='income'  ? 'on-i':'';
-  bE.className = t==='expense' ? 'on-e':'';
-  fillCatSelect();
-  renderChips();
+  [...seg.children].forEach(b=> b.className = b.dataset.t===t ? 'on-'+t : '');
+  const isPort = (t==='saving'||t==='invest');
+  chkWrap.className = 'chk'+(isPort?' show':'');
+  chkTxt.textContent = t==='saving' ? 'ถอนเงินออม' : 'ขาย/ถอนการลงทุน';
+  if(!isPort) fOut.checked = false;
+  fNote.placeholder = {income:'เช่น เงินเดือน ก.ย.',expense:'เช่น ค่าอาหารกลางวัน',
+    saving:'เช่น ฝากเข้าบัญชีออมทรัพย์',invest:'เช่น DCA กองทุนรวม'}[t];
+  fillCatSelect(); renderChips();
 }
 
 function fillCatSelect(keep){
@@ -297,26 +373,25 @@ function fillCatSelect(keep){
     + '<option value="__new">⚙ จัดการหมวดหมู่...</option>';
   if(keep && list.some(c=>c.name===keep)) fCat.value = keep;
 }
-
-function catChanged(){
-  if(fCat.value==='__new'){ fillCatSelect(); openCat(); }
-}
+function catChanged(){ if(fCat.value==='__new'){ fillCatSelect(); openCat(); } }
 
 function fillFilterSelect(){
   const cur = fCatF.value || 'all';
+  const list = fType.value==='all' ? cats : cats.filter(c=>c.type===fType.value);
   fCatF.innerHTML = '<option value="all">ทุกหมวดหมู่</option>' +
-    cats.map(c=>`<option value="${esc(c.name)}">${c.icon} ${esc(c.name)}</option>`).join('');
+    list.map(c=>`<option value="${esc(c.name)}">${c.icon} ${esc(c.name)}</option>`).join('');
   fCatF.value = [...fCatF.options].some(o=>o.value===cur) ? cur : 'all';
 }
 
 function addItem(){
-  const amt = parseFloat(fAmt.value);
-  if(fCat.value==='__new')  return alert('กรุณาเลือกหมวดหมู่');
-  if(!fDate.value)          return alert('กรุณาเลือกวันที่');
-  if(!amt || amt<=0)        return alert('กรุณากรอกจำนวนเงินให้ถูกต้อง');
-  data.push({id:Date.now(), date:fDate.value, type, cat:fCat.value,
-             amt, note:fNote.value.trim()||'-'});
-  saveAll(); fAmt.value=fNote.value='';
+  let amt = parseFloat(fAmt.value);
+  if(fCat.value==='__new') return alert('กรุณาเลือกหมวดหมู่');
+  if(!fDate.value)         return alert('กรุณาเลือกวันที่');
+  if(!amt || amt<=0)       return alert('กรุณากรอกจำนวนเงินให้ถูกต้อง');
+  if((type==='saving'||type==='invest') && fOut.checked) amt = -amt;   // ถอน/ขายออก
+  data.push({id:Date.now(), date:fDate.value, type, cat:fCat.value, amt,
+             note:fNote.value.trim()||'-'});
+  saveAll(); fAmt.value=fNote.value=''; fOut.checked=false;
   buildMonths(ym(fDate.value)); render();
 }
 
@@ -325,106 +400,89 @@ function del(id){
   data = data.filter(x=>x.id!==id); saveAll(); render();
 }
 
-/* ═══════════ รายการด่วน (Preset) ═══════════ */
+/* ═══════════ รายการด่วน ═══════════ */
 function renderChips(){
   const list = psets.filter(p=>p.type===type);
   chips.innerHTML = list.map(p=>{
     const c = findCat(p.cat,p.type);
-    return `<div class="chip" onclick="useP(${p.id})" title="คลิกเพื่อกรอกฟอร์ม">
+    return `<div class="chip" onclick="useP(${p.id})" title="คลิกเพื่อกรอกฟอร์มอัตโนมัติ">
       <span>${c.icon}</span><span>${esc(p.note)}</span>
       <span class="amt2">${baht(p.amt)}</span>
       <button class="rm" onclick="event.stopPropagation();delP(${p.id})">✕</button></div>`;
   }).join('') + `<div class="chip add" onclick="addP()">+ บันทึกเป็นรายการด่วน</div>`;
 }
-
 function useP(id){
   const p = psets.find(x=>x.id===id); if(!p) return;
-  fillCatSelect(p.cat); fAmt.value = p.amt; fNote.value = p.note; fAmt.focus();
+  fillCatSelect(p.cat); fAmt.value=p.amt; fNote.value=p.note; fAmt.focus();
 }
-
 function addP(){
   const amt = parseFloat(fAmt.value);
   if(!amt||amt<=0) return alert('กรอกจำนวนเงินในฟอร์มก่อน แล้วค่อยกดบันทึกเป็นรายการด่วน');
-  psets.push({id:Date.now(), type, cat:fCat.value, amt,
-              note:fNote.value.trim()||fCat.value});
+  psets.push({id:Date.now(), type, cat:fCat.value, amt, note:fNote.value.trim()||fCat.value});
   saveAll(); renderChips();
 }
-
 function delP(id){ psets = psets.filter(p=>p.id!==id); saveAll(); renderChips(); }
 
 /* ═══════════ Modal หมวดหมู่ ═══════════ */
-function openCat(){ tab = type; setTab(tab); mask.classList.add('show'); }
+function openCat(){ setTab(type); mask.classList.add('show'); }
 function closeCat(){ mask.classList.remove('show'); resetForm(); }
 
 function setTab(t){
   tab=t; editId=null;
-  tI.className = t==='income' ?'on':''; tE.className = t==='expense'?'on':'';
-  pickColor = t==='income' ? '#22c55e' : '#f43f5e';
+  document.querySelectorAll('.tabs button').forEach(b=> b.className = b.dataset.t===t?'on':'');
+  pickColor = TYPES[t].color; pickIcon = ICONS[0];
   drawPickers(); renderCatList(); resetForm();
 }
-
 function drawPickers(){
   icons.innerHTML  = ICONS.map(i=>`<button class="${i===pickIcon?'on':''}"
       onclick="pickIcon='${i}';drawPickers()">${i}</button>`).join('');
   colors.innerHTML = PALETTE.map(c=>`<button class="swatch ${c===pickColor?'on':''}"
       style="background:${c}" onclick="pickColor='${c}';drawPickers()"></button>`).join('');
 }
-
 function renderCatList(){
   const list = cats.filter(c=>c.type===tab);
   clist.innerHTML = list.length ? list.map(c=>{
-    const n = data.filter(d=>d.cat===c.name).length;
+    const n = data.filter(d=>d.cat===c.name && d.type===c.type).length;
     return `<div class="citem" style="border-left:3px solid ${c.color}">
-      <span class="ic">${c.icon}</span>
-      <span class="nm">${esc(c.name)}</span>
+      <span class="ic">${c.icon}</span><span class="nm">${esc(c.name)}</span>
       <span class="used">${n} รายการ</span>
       <button onclick="editCat(${c.id})">แก้ไข</button>
-      <button class="d" onclick="delCat(${c.id})">ลบ</button>
-    </div>`;
+      <button class="d" onclick="delCat(${c.id})">ลบ</button></div>`;
   }).join('') : '<div class="empty">ยังไม่มีหมวดหมู่ — เพิ่มด้านล่างได้เลย</div>';
 }
-
 function saveCat(){
   const name = cName.value.trim();
   if(!name) return alert('กรุณาตั้งชื่อหมวดหมู่');
-  const dup = cats.find(c=>c.name===name && c.type===tab && c.id!==editId);
-  if(dup) return alert('มีหมวดหมู่ชื่อนี้อยู่แล้ว');
-
+  if(cats.find(c=>c.name===name && c.type===tab && c.id!==editId))
+    return alert('มีหมวดหมู่ชื่อนี้อยู่แล้วในประเภทนี้');
   if(editId){
     const c = cats.find(x=>x.id===editId), old = c.name;
     c.name=name; c.icon=pickIcon; c.color=pickColor;
-    data.forEach(d=>{ if(d.cat===old) d.cat=name; });      // ย้ายรายการเดิมตามชื่อใหม่
-    psets.forEach(p=>{ if(p.cat===old) p.cat=name; });
+    data.forEach(d=>{ if(d.cat===old && d.type===c.type) d.cat=name; });
+    psets.forEach(p=>{ if(p.cat===old && p.type===c.type) p.cat=name; });
   }else{
     cats.push({id:Date.now(), type:tab, name, icon:pickIcon, color:pickColor});
   }
   saveAll(); renderCatList(); resetForm();
   fillCatSelect(); fillFilterSelect(); renderChips(); render();
 }
-
 function editCat(id){
   const c = cats.find(x=>x.id===id);
   editId=id; cName.value=c.name; pickIcon=c.icon; pickColor=c.color;
-  cSave.textContent='✔ บันทึกการแก้ไข'; drawPickers(); cName.focus();
+  cSave.textContent='✔ บันทึก'; drawPickers(); cName.focus();
 }
-
 function delCat(id){
   const c = cats.find(x=>x.id===id);
-  const n = data.filter(d=>d.cat===c.name).length;
-  const msg = n ? `หมวด "${c.name}" มี ${n} รายการอยู่\nลบหมวดแล้วรายการยังอยู่ (แสดงเป็น 📌)\nยืนยันลบ?`
-                : `ลบหมวด "${c.name}"?`;
-  if(!confirm(msg)) return;
+  const n = data.filter(d=>d.cat===c.name && d.type===c.type).length;
+  if(!confirm(n ? `หมวด "${c.name}" มี ${n} รายการอยู่\nลบหมวดแล้วรายการยังอยู่ (แสดงเป็น 📌)\nยืนยันลบ?`
+                : `ลบหมวด "${c.name}"?`)) return;
   cats = cats.filter(x=>x.id!==id);
   saveAll(); renderCatList(); resetForm();
   fillCatSelect(); fillFilterSelect(); render();
 }
-
-function resetForm(){
-  editId=null; cName.value=''; cSave.textContent='+ เพิ่ม';
-}
-
+function resetForm(){ editId=null; cName.value=''; cSave.textContent='+ เพิ่ม'; }
 function resetCats(){
-  if(!confirm('คืนค่าหมวดหมู่กลับเป็นชุดเริ่มต้น? (รายการเงินไม่หาย)')) return;
+  if(!confirm('คืนค่าหมวดหมู่กลับเป็นชุดเริ่มต้นทั้ง 4 ประเภท? (รายการเงินไม่หาย)')) return;
   cats = DEFAULT_CATS.slice(); saveAll();
   renderCatList(); fillCatSelect(); fillFilterSelect(); render();
 }
@@ -442,21 +500,33 @@ function buildMonths(pick){
 function render(){
   const M    = mSel.value;
   const mine = data.filter(d=>ym(d.date)===M);
-  const sum  = a => a.reduce((s,x)=>s+x.amt,0);
-  const inc  = mine.filter(d=>d.type==='income');
-  const exp  = mine.filter(d=>d.type==='expense');
-  const ti=sum(inc), te=sum(exp), bal=ti-te;
+  const by   = t => mine.filter(d=>d.type===t);
+  const ti=sum(by('income')), te=sum(by('expense')),
+        ts=sum(by('saving')), tv=sum(by('invest'));
+  const bal = ti - te - ts - tv;
 
-  kIn.textContent=baht(ti);  kInN.textContent=inc.length+' รายการ';
-  kEx.textContent=baht(te);  kExN.textContent=exp.length+' รายการ';
+  /* --- KPI --- */
+  kIn.textContent=baht(ti);  kInN.textContent=by('income').length+' รายการ';
+  kEx.textContent=baht(te);  kExN.textContent=by('expense').length+' รายการ';
+  kSv.textContent=baht(ts);  kSv.style.color='var(--sv)';
+  kIv.textContent=baht(tv);  kIv.style.color='var(--iv)';
   kBal.textContent=baht(bal); kBal.style.color = bal>=0?'var(--in)':'var(--ex)';
-  kSave.textContent = ti ? ((bal/ti)*100).toFixed(1)+'%' : '—';
-  kSave.style.color = bal>=0?'var(--warn)':'var(--ex)';
 
-  const days = new Date(+M.slice(0,4), +M.slice(5,7), 0).getDate();
-  kAvg.textContent = 'จ่ายเฉลี่ย/วัน '+baht(te/days);
+  const cumS = sum(data.filter(d=>d.type==='saving' && ym(d.date)<=M));
+  const cumV = sum(data.filter(d=>d.type==='invest' && ym(d.date)<=M));
+  kSvT.textContent = 'สะสมถึงเดือนนี้ '+baht(cumS);
+  kIvT.textContent = 'พอร์ตสะสม '+baht(cumV);
 
-  const [y,m]=M.split('-').map(Number);
+  const rate = ti ? (ts+tv)/ti*100 : 0;
+  kRate.textContent = ti ? rate.toFixed(1)+'%' : '—';
+  const h = rate>=30 ? ['🏆 ยอดเยี่ยม เกินเกณฑ์ 30%','var(--in)']
+          : rate>=20 ? ['✅ ดีมาก อยู่ในเกณฑ์แนะนำ','var(--in)']
+          : rate>=10 ? ['🙂 พอใช้ ลองขยับเป็น 20%','var(--sv)']
+          : rate>0   ? ['⚠️ ยังน้อย ควรเพิ่มการออม','var(--ex)']
+                     : ['ยังไม่มีการออม/ลงทุนเดือนนี้','var(--sub)'];
+  kHealth.textContent = h[0]; kRate.style.color = h[1];
+
+  const [y,m] = M.split('-').map(Number);
   const prevK = new Date(y,m-2,1).toISOString().slice(0,7);
   const pe = sum(data.filter(d=>ym(d.date)===prevK && d.type==='expense'));
   kCmp.textContent = pe
@@ -465,32 +535,39 @@ function render(){
     : 'ไม่มีข้อมูลเดือนก่อน';
   kCmp.style.color = pe ? (te>pe?'var(--ex)':'var(--in)') : 'var(--sub)';
 
-  /* กราฟ 12 เดือน */
+  /* --- กราฟ 12 เดือน (4 แท่ง) --- */
   const months=[];
   for(let i=11;i>=0;i--){
     const d = new Date(y,m-1-i,1);
     const k = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
-    months.push({k,
-      i:sum(data.filter(x=>ym(x.date)===k&&x.type==='income')),
-      e:sum(data.filter(x=>ym(x.date)===k&&x.type==='expense'))});
+    const g = t => Math.max(0, sum(data.filter(x=>ym(x.date)===k && x.type===t)));
+    months.push({k, i:g('income'), e:g('expense'), s:g('saving'), v:g('invest')});
   }
-  const max = Math.max(...months.flatMap(o=>[o.i,o.e]),1);
+  const max = Math.max(...months.flatMap(o=>[o.i,o.e,o.s,o.v]),1);
   bars.innerHTML = months.map(o=>`
     <div class="barcol ${o.k===M?'on':''}" onclick="buildMonths('${o.k}');render()"
-         title="${thM(o.k)} | รับ ${baht(o.i)} | จ่าย ${baht(o.e)}">
+      title="${thM(o.k)}&#10;รับ ${baht(o.i)}&#10;จ่าย ${baht(o.e)}&#10;ออม ${baht(o.s)}&#10;ลงทุน ${baht(o.v)}">
       <div class="barpair">
         <div class="bar i" style="height:${o.i/max*100}%"></div>
         <div class="bar e" style="height:${o.e/max*100}%"></div>
+        <div class="bar s" style="height:${o.s/max*100}%"></div>
+        <div class="bar v" style="height:${o.v/max*100}%"></div>
       </div><small>${thM(o.k).split(' ')[0]}</small>
     </div>`).join('');
 
-  /* สัดส่วนหมวดหมู่ (ใช้สีจริงของหมวด) */
+  /* --- สัดส่วนรายจ่าย --- */
   const grp={};
-  exp.forEach(d=>grp[d.cat]=(grp[d.cat]||0)+d.amt);
-  const rows = Object.entries(grp).sort((a,b)=>b[1]-a[1]);
-  cats_render(rows, te);
+  by('expense').forEach(d=>grp[d.cat]=(grp[d.cat]||0)+d.amt);
+  drawBars('cats', Object.entries(grp).sort((a,b)=>b[1]-a[1]), te, 'expense',
+           'ยังไม่มีรายจ่ายในเดือนนี้', null);
 
-  /* ตาราง */
+  /* --- พอร์ตสะสม ออม / ลงทุน --- */
+  svUpto.textContent = 'ถึง '+thM(M);
+  ivUpto.textContent = 'ถึง '+thM(M);
+  portfolio('svBox','saving',M,'ยังไม่มีการออม — เริ่มเดือนนี้ได้เลย 🐷');
+  portfolio('ivBox','invest',M,'ยังไม่มีการลงทุน — เริ่ม DCA เล็กๆ ก็ได้ 📈');
+
+  /* --- ตาราง --- */
   const kw = q.value.toLowerCase();
   const list = mine
     .filter(d=>fType.value==='all'||d.type===fType.value)
@@ -499,26 +576,46 @@ function render(){
     .sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
 
   tb.innerHTML = list.length ? list.map(d=>{
-    const c = findCat(d.cat,d.type);
+    const c=findCat(d.cat,d.type), T=TYPES[d.type];
+    const neg = d.amt<0;
+    const sign = d.type==='income' ? '+' : d.type==='expense' ? '−' : (neg?'↩':'→');
+    const col  = d.type==='income' ? 'var(--in)' : d.type==='expense' ? 'var(--ex)'
+               : neg ? 'var(--in)' : T.color;
     return `<tr>
       <td style="color:var(--sub);white-space:nowrap">${d.date.slice(8)}/${d.date.slice(5,7)}</td>
+      <td><span class="tag" style="background:${T.color}22;color:${T.color}">${T.icon} ${T.label}</span></td>
       <td><span class="tag"><i style="background:${c.color}"></i>${c.icon} ${esc(d.cat)}</span></td>
-      <td>${esc(d.note)}</td>
-      <td class="amt ${d.type==='income'?'i':'e'}">${d.type==='income'?'+':'−'} ${baht(d.amt)}</td>
+      <td>${esc(d.note)}${neg?' <span style="color:var(--sub);font-size:11px">(ถอนออก)</span>':''}</td>
+      <td class="amt" style="color:${col}">${sign} ${baht(Math.abs(d.amt))}</td>
       <td><button class="x" onclick="del(${d.id})">ลบ</button></td></tr>`;
-  }).join('') : '<tr><td colspan="5" class="empty">ยังไม่มีรายการ — เริ่มบันทึกได้เลย 👆</td></tr>';
+  }).join('') : '<tr><td colspan="6" class="empty">ยังไม่มีรายการ — เริ่มบันทึกได้เลย 👆</td></tr>';
 }
 
-function cats_render(rows, te){
-  cats_el = document.getElementById('cats');
-  cats_el.innerHTML = rows.length ? rows.map(([n,v])=>{
-    const c = findCat(n,'expense');
+/* วาดแถบสัดส่วน */
+function drawBars(elId, rows, total, ctype, emptyMsg, totalLabel){
+  const el = document.getElementById(elId);
+  if(!rows.length){ el.innerHTML = `<div class="empty">${emptyMsg}</div>`; return; }
+  el.innerHTML = rows.map(([n,v])=>{
+    const c = findCat(n,ctype);
+    const p = total ? Math.abs(v)/Math.abs(total)*100 : 0;
     return `<div class="catrow">
       <div class="t"><span>${c.icon} ${esc(n)}</span>
-        <b>${baht(v)} <span style="color:var(--sub);font-weight:400">(${(v/te*100).toFixed(0)}%)</span></b></div>
-      <div class="track"><div class="fill" style="width:${v/te*100}%;background:${c.color}"></div></div>
+        <b>${baht(v)} <span style="color:var(--sub);font-weight:400">(${p.toFixed(0)}%)</span></b></div>
+      <div class="track"><div class="fill" style="width:${Math.min(p,100)}%;background:${c.color}"></div></div>
     </div>`;
-  }).join('') : '<div class="empty">ยังไม่มีรายจ่ายในเดือนนี้</div>';
+  }).join('') + (totalLabel
+    ? `<div class="total"><span>${totalLabel}</span>
+       <b style="color:${TYPES[ctype].color}">${baht(total)}</b></div>` : '');
+}
+
+/* พอร์ตสะสมของ saving / invest */
+function portfolio(elId, t, M, emptyMsg){
+  const rows = {};
+  data.filter(d=>d.type===t && ym(d.date)<=M).forEach(d=>rows[d.cat]=(rows[d.cat]||0)+d.amt);
+  const list = Object.entries(rows).filter(([,v])=>Math.abs(v)>0.004).sort((a,b)=>b[1]-a[1]);
+  const total = list.reduce((s,[,v])=>s+v,0);
+  drawBars(elId, list, total, t, emptyMsg,
+    t==='saving' ? 'รวมเงินออมสะสมทั้งหมด' : 'มูลค่าเงินลงทุนสะสมทั้งหมด');
 }
 
 /* ═══════════ เครื่องมือ ═══════════ */
@@ -527,19 +624,16 @@ function clearMonth(){
   if(!confirm(`ลบข้อมูลทั้งหมดของ ${thM(M)}?`)) return;
   data = data.filter(d=>ym(d.date)!==M); saveAll(); render();
 }
-
 function expCSV(){
   const rows = data.filter(d=>ym(d.date)===mSel.value).sort((a,b)=>a.date.localeCompare(b.date));
   const csv = '\uFEFFวันที่,ประเภท,หมวดหมู่,รายละเอียด,จำนวนเงิน\n' +
-    rows.map(d=>[d.date, d.type==='income'?'รายรับ':'รายจ่าย', d.cat, `"${d.note}"`, d.amt].join(',')).join('\n');
+    rows.map(d=>[d.date, TYPES[d.type].label, d.cat, `"${d.note}"`, d.amt].join(',')).join('\n');
   dl(new Blob([csv],{type:'text/csv;charset=utf-8'}), `money_${mSel.value}.csv`);
 }
-
 function expJSON(){
-  dl(new Blob([JSON.stringify({tx:data,cats,psets},null,2)],{type:'application/json'}),
+  dl(new Blob([JSON.stringify({v:3,tx:data,cats,psets},null,2)],{type:'application/json'}),
      `money_backup_${new Date().toISOString().slice(0,10)}.json`);
 }
-
 function impJSON(el){
   const r=new FileReader();
   r.onload = e => {
@@ -549,33 +643,44 @@ function impJSON(el){
       if(!Array.isArray(tx)) throw 0;
       if(!confirm(`นำเข้า ${tx.length} รายการ (ข้อมูลเดิมจะถูกแทนที่)?`)) return;
       data = tx;
-      if(j.cats)  cats  = j.cats;
+      if(j.cats){ cats = j.cats;
+        ['saving','invest'].forEach(t=>{                 // เติมหมวดใหม่ให้ไฟล์เก่า
+          if(!cats.some(c=>c.type===t))
+            cats = cats.concat(DEFAULT_CATS.filter(c=>c.type===t));
+        });
+      }
       if(j.psets) psets = j.psets;
-      saveAll(); fillCatSelect(); fillFilterSelect(); renderChips();
-      buildMonths(); render(); alert('นำเข้าสำเร็จ ✔');
+      saveAll(); setType(type); fillFilterSelect(); buildMonths(); render();
+      alert('นำเข้าสำเร็จ ✔');
     }catch{ alert('ไฟล์ไม่ถูกต้อง'); }
   };
   r.readAsText(el.files[0]); el.value='';
 }
-
 const dl=(blob,name)=>{
   const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:name});
   a.click(); URL.revokeObjectURL(a.href);
 };
 
 function demo(){
-  if(data.length && !confirm('เพิ่มข้อมูลตัวอย่าง 3 เดือนย้อนหลัง?')) return;
-  const now=new Date();
-  for(let mo=2;mo>=0;mo--){
+  if(data.length && !confirm('เพิ่มข้อมูลตัวอย่าง 4 เดือนย้อนหลัง?')) return;
+  const now=new Date(), id=()=>Date.now()+(Math.random()*1e6|0);
+  for(let mo=3;mo>=0;mo--){
     const d=new Date(now.getFullYear(),now.getMonth()-mo,1);
     const p=k=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(k).padStart(2,'0')}`;
-    const id=()=>Date.now()+Math.random()*1e6|0;
-    data.push({id:id(),date:p(25),type:'income',cat:'เงินเดือน',amt:35000,note:'เงินเดือนประจำ'});
-    if(mo!==1) data.push({id:id(),date:p(15),type:'income',cat:'ฟรีแลนซ์',amt:4500+mo*800,note:'งานเสริม'});
-    [['อาหาร',6200,3],['ที่พัก/ค่าเช่า',8000,1],['เดินทาง',2400,5],
-     ['บิล/สาธารณูปโภค',1800,7],['ช้อปปิ้ง',3200+mo*900,12],
-     ['บันเทิง',1500,20],['สุขภาพ',900,18]].forEach(([c,v,day])=>
-      data.push({id:id(),date:p(day),type:'expense',cat:c,amt:v,note:c+' ประจำเดือน'}));
+    const push=(day,t,c,v,n)=>data.push({id:id(),date:p(day),type:t,cat:c,amt:v,note:n});
+    push(25,'income','เงินเดือน',35000,'เงินเดือนประจำ');
+    if(mo!==1) push(15,'income','ฟรีแลนซ์',4500+mo*800,'งานเสริม');
+    if(mo===0) push(10,'income','ดอกเบี้ย/ปันผล',1250,'ปันผลกองทุน');
+    [[3,'อาหาร',6200],[1,'ที่พัก/ค่าเช่า',8000],[5,'เดินทาง',2400],
+     [7,'บิล/สาธารณูปโภค',1800],[12,'ช้อปปิ้ง',2600+mo*700],
+     [20,'บันเทิง',1500],[18,'สุขภาพ',900]].forEach(([day,c,v])=>push(day,'expense',c,v,c+' ประจำเดือน'));
+    push(26,'saving','บัญชีออมทรัพย์',5000,'ออมทันทีหลังเงินเดือนออก');
+    push(26,'saving','เงินสำรองฉุกเฉิน',2000,'เติมกองฉุกเฉิน');
+    if(mo%2===0) push(27,'saving','เงินฝากประจำ',3000,'ฝากประจำ 24 เดือน');
+    push(27,'invest','กองทุนรวม',3000,'DCA รายเดือน');
+    push(28,'invest','หุ้นไทย',4000+mo*500,'สะสมหุ้นปันผล');
+    if(mo===2) push(14,'invest','ทองคำ',9500,'ซื้อทอง 1 สลึง');
+    if(mo===1) push(22,'saving','บัญชีออมทรัพย์',-4000,'ถอนไปซ่อมรถ');
   }
   saveAll(); buildMonths(); render();
 }
