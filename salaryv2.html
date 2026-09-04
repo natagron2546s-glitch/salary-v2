@@ -27,6 +27,7 @@
     background:var(--paper);
     color:var(--ink);
     font-family:'IBM Plex Sans Thai',sans-serif;
+    font-size:16px;
     min-height:100vh;
   }
   .serif{font-family:'Noto Serif Thai',serif;}
@@ -47,30 +48,30 @@
     padding:40px 32px;
   }
   .auth-card .brand{
-    font-size:26px; letter-spacing:.01em; margin-bottom:4px;
+    font-size:30px; letter-spacing:.01em; margin-bottom:4px;
   }
   .auth-card .tagline{
-    color:var(--ink-soft); font-size:14px; margin-bottom:28px; line-height:1.6;
+    color:var(--ink-soft); font-size:16px; margin-bottom:28px; line-height:1.6;
   }
   .field{margin-bottom:16px;}
-  .field label{display:block; font-size:13px; color:var(--ink-soft); margin-bottom:6px;}
+  .field label{display:block; font-size:15px; color:var(--ink-soft); margin-bottom:6px;}
   .field input{
     width:100%; padding:10px 12px; border:1px solid var(--line);
-    background:#fff; color:var(--ink); font-size:15px;
+    background:#fff; color:var(--ink); font-size:17px;
   }
   .field input:focus{outline:2px solid var(--ink); outline-offset:1px;}
   .auth-actions{display:flex; flex-direction:column; gap:10px; margin-top:22px;}
   .btn{
     border:1px solid var(--ink); background:var(--ink); color:var(--paper-raised);
-    padding:11px 16px; font-size:15px; font-weight:500;
+    padding:11px 16px; font-size:17px; font-weight:500;
   }
   .btn:hover{opacity:.88;}
   .btn-ghost{
     background:transparent; color:var(--ink); border:1px solid var(--line);
   }
   .btn-ghost:hover{border-color:var(--ink);}
-  #auth-error{color:var(--expense); font-size:13.5px; margin-top:14px; min-height:1em;}
-  #auth-note{color:var(--ink-soft); font-size:12.5px; margin-top:22px; line-height:1.6; border-top:1px solid var(--line-soft); padding-top:16px;}
+  #auth-error{color:var(--expense); font-size:15px; margin-top:14px; min-height:1em;}
+  #auth-note{color:var(--ink-soft); font-size:14px; margin-top:22px; line-height:1.6; border-top:1px solid var(--line-soft); padding-top:16px;}
 
   /* ---------- APP SHELL ---------- */
   #app-screen{display:none; min-height:100vh;}
@@ -79,10 +80,10 @@
     padding:18px 28px; border-bottom:1px solid var(--line);
     background:var(--paper-raised);
   }
-  .topbar .brand{font-size:21px;}
-  .topbar-right{display:flex; align-items:center; gap:16px; font-size:14px; color:var(--ink-soft);}
+  .topbar .brand{font-size:24px;}
+  .topbar-right{display:flex; align-items:center; gap:16px; font-size:16px; color:var(--ink-soft);}
   .link-btn{
-    background:none; border:none; color:var(--ink); font-size:14px;
+    background:none; border:none; color:var(--ink); font-size:16px;
     text-decoration:underline; text-underline-offset:3px; padding:0;
   }
 
@@ -91,20 +92,20 @@
     width:200px; flex-shrink:0; padding:28px 20px; border-right:1px solid var(--line);
     min-height:calc(100vh - 65px);
   }
-  .sidebar h3{font-size:13px; color:var(--ink-soft); font-weight:500; margin-bottom:12px; font-family:'IBM Plex Sans Thai',sans-serif;}
+  .sidebar h3{font-size:15px; color:var(--ink-soft); font-weight:500; margin-bottom:12px; font-family:'IBM Plex Sans Thai',sans-serif;}
   .month-item{
     display:block; width:100%; text-align:left; background:none; border:none;
-    padding:8px 0; font-size:15px; color:var(--ink-soft); border-bottom:1px solid var(--line-soft);
+    padding:8px 0; font-size:17px; color:var(--ink-soft); border-bottom:1px solid var(--line-soft);
   }
   .month-item.active{color:var(--ink); font-weight:600;}
   .month-item:hover{color:var(--ink);}
   .month-pick{margin-top:18px;}
   .month-pick input{
-    width:100%; padding:8px; border:1px solid var(--line); background:#fff; font-size:13.5px;
+    width:100%; padding:8px; border:1px solid var(--line); background:#fff; font-size:15px;
   }
 
   .main{flex:1; padding:28px 32px 60px; min-width:0;}
-  .main h2.month-title{font-size:24px; margin-bottom:22px;}
+  .main h2.month-title{font-size:28px; margin-bottom:22px;}
 
   .summary-strip{
     display:grid; grid-template-columns:repeat(4,1fr);
@@ -113,8 +114,8 @@
   }
   .summary-cell{padding:16px 18px; border-right:1px solid var(--line-soft);}
   .summary-cell:last-child{border-right:none;}
-  .summary-cell .label{font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;}
-  .summary-cell .value{font-size:19px; font-variant-numeric:tabular-nums; font-weight:600;}
+  .summary-cell .label{font-size:14px; color:var(--ink-soft); margin-bottom:6px;}
+  .summary-cell .value{font-size:22px; font-variant-numeric:tabular-nums; font-weight:600;}
   .summary-cell.income .value{color:var(--income);}
   .summary-cell.expense .value{color:var(--expense);}
   .summary-cell.invest .value{color:var(--invest);}
@@ -123,20 +124,20 @@
   .bar-group{display:flex; flex-direction:column; align-items:center; gap:6px; width:70px;}
   .bar{width:36px; background:var(--line-soft); position:relative;}
   .bar-track{height:88px; display:flex; align-items:flex-end;}
-  .bar-amt{font-size:11.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
-  .bar-label{font-size:12px; color:var(--ink-soft);}
+  .bar-amt{font-size:13px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+  .bar-label{font-size:14px; color:var(--ink-soft);}
 
   .section-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
   .tabs{display:flex; gap:2px;}
   .tab-btn{
     background:none; border:1px solid var(--line); border-bottom:none;
-    padding:7px 14px; font-size:13.5px; color:var(--ink-soft);
+    padding:7px 14px; font-size:15px; color:var(--ink-soft);
   }
   .tab-btn.active{color:var(--ink); font-weight:600; background:var(--paper-raised);}
 
   .add-toggle{
     background:none; border:1px solid var(--ink); color:var(--ink);
-    padding:7px 14px; font-size:13.5px;
+    padding:7px 14px; font-size:15px;
   }
   .add-toggle:hover{background:var(--ink); color:var(--paper-raised);}
 
@@ -149,19 +150,19 @@
   .form-grid .field{margin-bottom:0;}
   .form-grid .wide{grid-column:1 / -1;}
   .add-form select{
-    width:100%; padding:10px 12px; border:1px solid var(--line); background:#fff; font-size:14.5px;
+    width:100%; padding:10px 12px; border:1px solid var(--line); background:#fff; font-size:16px;
   }
   .type-choice{display:flex; gap:8px;}
   .type-choice button{
-    flex:1; padding:9px; border:1px solid var(--line); background:#fff; font-size:13.5px; color:var(--ink-soft);
+    flex:1; padding:9px; border:1px solid var(--line); background:#fff; font-size:15px; color:var(--ink-soft);
   }
   .type-choice button.sel[data-t="income"]{border-color:var(--income); color:var(--income); background:var(--income-bg);}
   .type-choice button.sel[data-t="expense"]{border-color:var(--expense); color:var(--expense); background:var(--expense-bg);}
   .type-choice button.sel[data-t="invest"]{border-color:var(--invest); color:var(--invest); background:var(--invest-bg);}
 
-  table.ledger{width:100%; border-collapse:collapse; font-size:14.5px;}
+  table.ledger{width:100%; border-collapse:collapse; font-size:16px;}
   table.ledger thead th{
-    text-align:left; font-weight:500; color:var(--ink-soft); font-size:12.5px;
+    text-align:left; font-weight:500; color:var(--ink-soft); font-size:14px;
     border-bottom:1px solid var(--line); padding:8px 10px;
   }
   table.ledger tbody td{padding:11px 10px; border-bottom:1px solid var(--line-soft); vertical-align:top;}
@@ -175,20 +176,20 @@
   .amt.expense{color:var(--expense);}
   .amt.invest{color:var(--invest);}
   .del-btn{
-    background:none; border:none; color:var(--ink-soft); font-size:13px; text-decoration:underline;
+    background:none; border:none; color:var(--ink-soft); font-size:15px; text-decoration:underline;
     text-underline-offset:2px;
   }
   .del-btn:hover{color:var(--expense);}
-  .empty-row td{padding:28px 10px; color:var(--ink-soft); font-size:14px; text-align:center;}
+  .empty-row td{padding:28px 10px; color:var(--ink-soft); font-size:16px; text-align:center;}
 
   .portfolio{
     margin-top:44px; padding-top:24px; border-top:1px solid var(--line);
   }
-  .portfolio h3{font-size:18px; margin-bottom:14px;}
+  .portfolio h3{font-size:21px; margin-bottom:14px;}
   .portfolio-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
   .portfolio-cell{background:var(--paper-raised); padding:16px 18px;}
-  .portfolio-cell .label{font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;}
-  .portfolio-cell .value{font-size:19px; font-variant-numeric:tabular-nums; font-weight:600;}
+  .portfolio-cell .label{font-size:14px; color:var(--ink-soft); margin-bottom:6px;}
+  .portfolio-cell .value{font-size:22px; font-variant-numeric:tabular-nums; font-weight:600;}
   .gain{color:var(--income);}
   .loss{color:var(--expense);}
 
@@ -501,7 +502,7 @@
     populateCategorySelect();
     if(usingFallbackStorage){
       const bar = document.createElement('div');
-      bar.style.cssText = 'background:var(--invest-bg); color:var(--invest); font-size:13px; padding:9px 28px; border-bottom:1px solid var(--line);';
+      bar.style.cssText = 'background:var(--invest-bg); color:var(--invest); font-size:15px; padding:9px 28px; border-bottom:1px solid var(--line);';
       bar.textContent = 'หมายเหตุ: ระบบจัดเก็บข้อมูลถาวรใช้งานไม่ได้ในหน้าต่างนี้ ข้อมูลจะยังอยู่ระหว่างที่เปิดหน้านี้ค้างไว้ แต่จะหายไปเมื่อรีเฟรชหรือปิดหน้าต่าง';
       document.getElementById('app-screen').insertBefore(bar, document.getElementById('app-screen').firstChild);
     }
