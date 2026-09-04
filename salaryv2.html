@@ -362,6 +362,48 @@
   let selectedMonth = null; // 'YYYY-MM'
   let activeFilter = 'all';
   let selectedType = 'income';
+  let usingFallbackStorage = false;
+
+  // Some environments inject window.storage a moment after page load, and
+  // some don't provide it at all. Wait briefly for it, then fall back to an
+  // in-memory store so the app is still usable (data just won't survive a reload).
+  function makeMemoryStorage(){
+    const mem = new Map();
+    const k = (key, shared) => (shared ? 'shared:' : 'priv:') + key;
+    return {
+      async get(key, shared){
+        const v = mem.get(k(key, shared));
+        if(v === undefined) throw new Error('not found');
+        return {key, value: v, shared: !!shared};
+      },
+      async set(key, value, shared){
+        mem.set(k(key, shared), value);
+        return {key, value, shared: !!shared};
+      },
+      async delete(key, shared){
+        mem.delete(k(key, shared));
+        return {key, deleted:true, shared: !!shared};
+      },
+      async list(prefix, shared){
+        const pfx = k(prefix || '', shared);
+        return {keys: Array.from(mem.keys()).filter(x => x.startsWith(pfx)), shared: !!shared};
+      }
+    };
+  }
+
+  let storageAPI = null;
+  async function waitForStorage(){
+    for(let i=0; i<20; i++){
+      if(typeof window.storage !== 'undefined' && window.storage){
+        storageAPI = window.storage;
+        return;
+      }
+      await new Promise(r => setTimeout(r, 150));
+    }
+    usingFallbackStorage = true;
+    storageAPI = makeMemoryStorage();
+  }
+  const storageReady = waitForStorage();
 
   const fmt = (n) => (Math.round((n + Number.EPSILON) * 100) / 100).toLocaleString('th-TH', {minimumFractionDigits:0, maximumFractionDigits:2});
 
@@ -378,21 +420,21 @@
   // ---------- storage helpers ----------
   async function getUser(username){
     try{
-      const r = await window.storage.get('user:' + username, true);
+      const r = await storageAPI.get('user:' + username, true);
       return r ? JSON.parse(r.value) : null;
     }catch(e){ return null; }
   }
   async function saveUser(username, password){
-    await window.storage.set('user:' + username, JSON.stringify({username, password}), true);
+    await storageAPI.set('user:' + username, JSON.stringify({username, password}), true);
   }
   async function loadTransactions(username){
     try{
-      const r = await window.storage.get('tx:' + username, true);
+      const r = await storageAPI.get('tx:' + username, true);
       return r ? JSON.parse(r.value) : [];
     }catch(e){ return []; }
   }
   async function persistTransactions(){
-    await window.storage.set('tx:' + currentUser, JSON.stringify(transactions), true);
+    await storageAPI.set('tx:' + currentUser, JSON.stringify(transactions), true);
   }
 
   // ---------- auth ----------
@@ -408,9 +450,9 @@
     const password = document.getElementById('auth-password').value;
     authError.textContent = '';
     if(!username || !password){ authError.textContent = 'กรอกชื่อผู้ใช้และรหัสผ่านให้ครบ'; return; }
-    if(typeof window.storage === 'undefined'){ authError.textContent = 'ระบบจัดเก็บข้อมูลยังไม่พร้อมใช้งาน กรุณาลองใหม่อีกครั้งในอีกสักครู่'; return; }
     setAuthBusy(true);
     try{
+      await storageReady;
       const existing = await getUser(username);
       if(existing){ authError.textContent = 'มีชื่อผู้ใช้นี้อยู่แล้ว ลองเข้าสู่ระบบแทน'; setAuthBusy(false); return; }
       await saveUser(username, password);
@@ -427,9 +469,9 @@
     const password = document.getElementById('auth-password').value;
     authError.textContent = '';
     if(!username || !password){ authError.textContent = 'กรอกชื่อผู้ใช้และรหัสผ่านให้ครบ'; return; }
-    if(typeof window.storage === 'undefined'){ authError.textContent = 'ระบบจัดเก็บข้อมูลยังไม่พร้อมใช้งาน กรุณาลองใหม่อีกครั้งในอีกสักครู่'; return; }
     setAuthBusy(true);
     try{
+      await storageReady;
       const user = await getUser(username);
       if(!user || user.password !== password){ authError.textContent = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'; setAuthBusy(false); return; }
       await enterApp(username);
@@ -457,6 +499,12 @@
     document.getElementById('app-screen').style.display = 'block';
     document.getElementById('month-picker').value = selectedMonth;
     populateCategorySelect();
+    if(usingFallbackStorage){
+      const bar = document.createElement('div');
+      bar.style.cssText = 'background:var(--invest-bg); color:var(--invest); font-size:13px; padding:9px 28px; border-bottom:1px solid var(--line);';
+      bar.textContent = 'หมายเหตุ: ระบบจัดเก็บข้อมูลถาวรใช้งานไม่ได้ในหน้าต่างนี้ ข้อมูลจะยังอยู่ระหว่างที่เปิดหน้านี้ค้างไว้ แต่จะหายไปเมื่อรีเฟรชหรือปิดหน้าต่าง';
+      document.getElementById('app-screen').insertBefore(bar, document.getElementById('app-screen').firstChild);
+    }
     renderAll();
   }
 
